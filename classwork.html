@@ -1,0 +1,65 @@
+<!-- True Yuen, Web Development Even 7-8 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 8 JS Classwork</title>
+    <script>
+        //Subchapter #1: Intro To Server Side Programming
+        console.log("Hello, World");
+
+        //Subchapter #2: Blocking and Non-Blocking Code
+        var fs = require("fs");
+        // var data = fs.readFileSync('input.txt');
+        // console.log(data.toString());
+        fs.readFile('input.txt', function (err, data) 
+        {
+            if (err) 
+                return console.error(err);
+            console.log(data.toString());
+        });
+        console.log("Program Ended");
+
+        //Subchapter #3: Web Server
+        var http = require("http");
+        http.createServer(function (request, response)
+        {
+            response.writeHead(200, {"Content-Type": "text/plain"});
+            response.end("Hello World\n");
+        }).listen(8081);
+        
+        console.log("Server running at http://127.0.0.1:8081/");
+
+        //Subchapter #4: Enhanced Web Server
+        var http = require("http");
+        var fs = require("fs");
+        var url = require("url");
+
+        http.createServer(function(request, response)
+        {
+            var pathname = url.parse(request.url).pathname.substring(1);
+            console.log("Request for " + pathname + " received.");
+            fs.readFile(pathname, function(err, data)
+            {
+                if (err) {
+                    console.log(err);
+                    response.writeHead(404, {"Content-Type": "text/html"});
+                }
+                else 
+                {
+                    response.writeHead(200, {"Content-Type": "text/html"});
+                    response.write(data.toString());
+                }
+                response.end();
+            })
+        }).listen(8081);
+
+        console.log("Server running at http://127.0.0.1:8081/");
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
